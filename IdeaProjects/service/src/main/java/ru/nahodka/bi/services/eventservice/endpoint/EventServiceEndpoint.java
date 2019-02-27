@@ -513,10 +513,7 @@ public class EventServiceEndpoint implements EventServicePort {
         List<ru.nahodka.bi.services.common.schemas.dimensions.Dimension> dimensions=registerDimensionRequest.getDimensions();
 
         for(ru.nahodka.bi.services.common.schemas.dimensions.Dimension dimension : dimensions){
-         //   Long dimId = dimension.getDimensionId();
-         //   if(dimId==null){
-         //       throw emptyDimensionsException();
-         //   }
+       
             String dimName=dimension.getDimensionName();
             if(dimName==null){
                 throw emptyDimensionsException();
@@ -546,10 +543,6 @@ public class EventServiceEndpoint implements EventServicePort {
             String dimETLName=dimension.getETLName();
 
 
-
-
-
-
             ObjectMapper objectMapper=new ObjectMapper();
             TableExtraFields tableExtraField=null;
             DimensionSettings dimensionSettings=null;
@@ -561,7 +554,6 @@ public class EventServiceEndpoint implements EventServicePort {
             }
 
             ru.nahodka.bi.core.domain.Dimension dimToSave = new ru.nahodka.bi.core.domain.Dimension();
-        //    dimToSave.setId(dimId);
             dimToSave.setName(dimName);
             dimToSave.setType(dimType);
             dimToSave.setHasSeparatedTable(dimHasSepTable);
