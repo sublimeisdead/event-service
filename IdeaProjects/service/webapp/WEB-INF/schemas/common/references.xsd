@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+        targetNamespace="http://nahodka.ru/bi/services/common/schemas/references"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://nahodka.ru/bi/services/common/schemas/references"
+        xmlns:typ="http://nahodka.ru/bi/services/common/schemas/types">
+    <import schemaLocation="types.xsd"
+            namespace="http://nahodka.ru/bi/services/common/schemas/types"/>
+
+    <complexType name="ReferenceDescription">
+        <annotation>
+            <documentation>Описание справочника</documentation>
+        </annotation>
+        <sequence>
+            <element name="TypeCode" type="tns:ReferenceTypeCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) справочника
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="Name" type="string" minOccurs="1"
+                     maxOccurs="1">
+                <annotation>
+                    <documentation>Название справочника</documentation>
+                </annotation>
+            </element>
+            <element name="Description" type="string" minOccurs="0"
+                     maxOccurs="1">
+                <annotation>
+                    <documentation>Описание справочника</documentation>
+                </annotation>
+            </element>
+            <element name="Attributes"
+                     type="typ:AttributeDescription" minOccurs="0"
+                     maxOccurs="unbounded">
+                <annotation>
+                    <documentation>
+                        Список описаний возможных атрибутов
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="ValueType" type="typ:ValueType" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Тип данных значения справочника</documentation>
+                </annotation></element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="ReferenceTypeCode">
+        <annotation>
+            <documentation>Код (идентификатор) элемента справочника</documentation>
+        </annotation>
+        <restriction base="typ:StringIdentifierBaseType"/>
+    </simpleType>
+
+    <simpleType name="ReferenceItemCode">
+        <annotation>
+            <documentation>
+                Код (идентификатор) элемента справочника
+            </documentation>
+        </annotation>
+        <restriction base="typ:LongIdentifierBaseType"/>
+    </simpleType>
+
+    <complexType name="ReferenceLink">
+        <annotation>
+            <documentation>Ссылка на элемент справочника</documentation>
+        </annotation>
+        <sequence>
+            <element name="TypeCode" type="tns:ReferenceTypeCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Код (идентификатор) справочника</documentation>
+                </annotation>
+            </element>
+            <element name="ItemCode" type="tns:ReferenceItemCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Код (идентификатор) элемента справочника</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="ReferenceItem">
+        <annotation>
+            <documentation>Элемент справочника</documentation>
+        </annotation>
+        <complexContent>
+            <extension base="tns:ReferenceLink">
+                <sequence>
+                    <element name="Value" type="typ:AnyTypeValue" minOccurs="1" maxOccurs="1">
+                        <annotation>
+                            <documentation>Значение элемента справочника</documentation>
+                        </annotation>
+                    </element>
+                    <element name="Attributes"
+                             type="typ:AttributeValue" minOccurs="0" maxOccurs="unbounded">
+                        <annotation>
+                            <documentation>Список значений дополнительных атрибутов</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <element name="AllAvailableReferencesDescriptions">
+        <annotation>
+            <documentation>Элемент "Описания всех доступных справочников"</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="values" type="tns:ListOfReferenceDescriptions" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="ListOfReferenceDescriptions">
+        <sequence>
+            <element name="item" type="tns:ReferenceDescription" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <element name="ReferenceDataList">
+        <annotation>
+            <documentation>Элемент "содержимое справочников"</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="values" type="tns:ReferenceItem" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>

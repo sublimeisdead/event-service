@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+        elementFormDefault="qualified"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://nahodka.ru/bi/services/eventService/schemas"
+        xmlns:facts="http://nahodka.ru/bi/services/common/schemas/facts"
+        xmlns:dimensions="http://nahodka.ru/bi/services/common/schemas/dimensions"
+        >
+
+    <import namespace="http://nahodka.ru/bi/services/common/schemas/facts"
+            schemaLocation="../common/facts.xsd"/>
+
+    <import namespace="http://nahodka.ru/bi/services/common/schemas/references"
+            schemaLocation="../common/references.xsd"/>
+
+    <import namespace="http://nahodka.ru/bi/services/common/schemas/types"
+            schemaLocation="../common/types.xsd"/>
+
+    <import namespace="http://nahodka.ru/bi/services/common/schemas/exceptions"
+            schemaLocation="../common/exceptions.xsd"/>
+
+    <import namespace="http://nahodka.ru/bi/services/common/schemas/dimensions"
+            schemaLocation="../common/dimensions.xsd"/>
+
+    <element name="Event">
+        <annotation>
+            <documentation>
+                Событие: содержит список фактов и дополнительные данные, не
+                относящиеся непосредственно к списку фактов
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="Fact" type="facts:Fact" minOccurs="1">
+                    <annotation>
+                        <documentation>Факт</documentation>
+                    </annotation>
+                </element>
+                <element name="SendDate" type="dateTime" minOccurs="1">
+                    <annotation>
+                        <documentation>Дата передачи факта</documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="Data">
+        <annotation>
+            <documentation>
+                Данные: содержит список фактов и дополнительные данные, не
+                относящиеся непосредственно к списку фактов
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="Facts" type="facts:Fact" minOccurs="1" maxOccurs="unbounded">
+                    <annotation>
+                        <documentation>Факт</documentation>
+                    </annotation>
+                </element>
+                <element name="SendDate" type="dateTime" minOccurs="1">
+                    <annotation>
+                        <documentation>Дата передачи факта</documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="Dimension">
+        <annotation>
+            <documentation>
+                Измерение
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="Dimensions" type="dimensions:Dimension" minOccurs="1" maxOccurs="unbounded">
+
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+
+    <element name="RegisterEventResponse">
+        <annotation>
+            <documentation>
+                Ответ на запрос регистрации события в системе
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="Message" type="string" minOccurs="1" nillable="false">
+                    <annotation>
+                        <documentation>
+                            Сообщение о результате регистрации события
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name="RegisterDataResponse">
+        <annotation>
+            <documentation>
+                Ответ на запрос загрузки данных в систему
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="Message" type="string" minOccurs="1" nillable="false">
+                    <annotation>
+                        <documentation>
+                            Сообщение о результате
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="RegisterDimensionResponse">
+        <annotation>
+            <documentation>
+                Ответ на запрос загрузки измерений в систему
+            </documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="Message" type="string" minOccurs="1" nillable="false">
+                    <annotation>
+                        <documentation>
+                            Сообщение о результате
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>

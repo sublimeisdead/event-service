@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://nahodka.ru/bi/services/common/schemas/facts"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://nahodka.ru/bi/services/common/schemas/facts"
+        xmlns:typ="http://nahodka.ru/bi/services/common/schemas/types"
+        xmlns:refer="http://nahodka.ru/bi/services/common/schemas/references">
+    <import schemaLocation="types.xsd"
+            namespace="http://nahodka.ru/bi/services/common/schemas/types">
+    </import>
+    <import schemaLocation="references.xsd"
+            namespace="http://nahodka.ru/bi/services/common/schemas/references"/>
+    <complexType name="QuerySoap">
+        <annotation>
+            <documentation>Описание запроса</documentation>
+        </annotation>
+        <sequence>
+            <element name="ListOfSelectItem" minOccurs="0" maxOccurs="unbounded"
+                    type="tns:SelectItem">
+                <annotation>
+                    <documentation>Список полей для выбора</documentation>
+                </annotation>
+            </element>
+            <element name="ListOfFilterItem" minOccurs="0" maxOccurs="unbounded"
+                     type="tns:FilterItem">
+                <annotation>
+                    <documentation>Список фильтров</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="FilterItem">
+        <annotation>
+            <documentation>Описание фильтра</documentation>
+        </annotation>
+        <sequence>
+            <element name="LogicOperation" type="typ:LogicOperation"/>
+            <element name="OperatorType" type="typ:OperatorType"/>
+            <choice minOccurs="1" maxOccurs="1">
+                <element name="FilterDimension" type="tns:DimensionFilter"/>
+                <element name="FilterFactTableValue" type="tns:FactTableValueFilter"/>
+            </choice>
+        </sequence>
+    </complexType>
+    
+    <complexType name="SelectItem">
+        <annotation>
+            <documentation>Описание поля для выбора</documentation>
+        </annotation>
+        <choice minOccurs="1" maxOccurs="1">
+            <element name="SelectDimension" type="tns:SelectDimension">
+                <annotation>
+                    <documentation>Выбор измерения</documentation>
+                </annotation>
+            </element>
+            <element name="SelectFactTableValue"
+                     type="tns:SelectFactTableValue">
+                <annotation>
+                    <documentation>
+                        Выбор значения таблицы фактов
+                    </documentation>
+                </annotation>
+            </element>
+        </choice>
+    </complexType>
+    
+    <complexType name="SelectDimension">
+        <annotation>
+            <documentation>Описание выбора измерения</documentation>
+        </annotation>
+        <sequence>
+            <element name="DimensionCode" type="tns:DimensionCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="Attributes"
+                     type="typ:AttributeCode" minOccurs="0"
+                     maxOccurs="unbounded">
+                <annotation>
+                    <documentation>
+                        Список описаний возможных атрибутов
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="SelectFactTableValue">
+        <annotation>
+            <documentation>Описание выбора Значения таблицы фактов</documentation>
+        </annotation>
+        <sequence>
+            <element name="FactTypeCode" type="tns:FactTypeCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) типа факта
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="FactValueCode" type="tns:FactValueCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) значения факта
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="FactTableValueFilter">
+        <annotation>
+            <documentation>Фильтр по значению таблицы фактов</documentation>
+        </annotation>
+        <sequence>
+            <element name="FactTypeCode" type="tns:FactTypeCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) типа факта
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="FactValueCode" type="tns:FactValueCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) значения факта
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="values" type="typ:AnyTypeValue" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="DimensionFilter">
+        <sequence>
+            <element name="DimensionCode" type="tns:DimensionCode" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Код (идентификатор) измерения</documentation>
+                </annotation>
+            </element>
+            <element name="FilterValues" type="tns:DimensionFilterValue" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="AttributeFilter">
+        <annotation>
+            <documentation>Фильтр по атрибутам</documentation>
+        </annotation>
+        <sequence>
+            <element name="Attribute" type="typ:AttributeCode"/>
+            <element name="values" type="typ:AnyTypeValue" minOccurs="1" maxOccurs="unbounded"/>
+        </sequence>
+
+    </complexType>
+
+    <complexType name="DimensionDescription">
+        <annotation>
+            <documentation>Описание измерения</documentation>
+        </annotation>
+        <sequence>
+            <element name="DimensionCode" type="tns:DimensionCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) измерения
+                    </documentation>
+                </annotation>
+            </element>
+
+            <element name="Name" type="string" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Название измерения</documentation>
+                </annotation>
+            </element>
+            <choice minOccurs="1" maxOccurs="1">
+                <element name="Type" type="typ:ValueType">
+                    <annotation>
+                        <documentation>Тип данных</documentation>
+                    </annotation>
+                </element>
+                <element name="ReferenceType"
+                         type="refer:ReferenceTypeCode">
+                    <annotation>
+                        <documentation>
+                            Тип справочника (если элемент является
+                            значением из справочника)
+                        </documentation>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+
+    <complexType name="DimensionValue">
+        <annotation>
+            <documentation>Значение измерения</documentation>
+        </annotation>
+        <sequence>
+            <element name="DimensionCode" type="tns:DimensionCode" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Код (идентификатор) измерения</documentation>
+                </annotation>
+            </element>
+            <element name="DimensionAlias" type="string"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Псведоним измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <choice minOccurs="1" maxOccurs="1">
+                <element name="Value" type="typ:AnyTypeValue">
+                    <annotation>
+                        <documentation>Значение измерения</documentation>
+                    </annotation>
+                </element>
+                <element name="ReferenceLink" type="refer:ReferenceLink">
+                    <annotation>
+                        <documentation>Ссылка на элемент справочника</documentation>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+
+    <complexType name="FactDescription">
+        <annotation>
+            <documentation>Описание факта</documentation>
+        </annotation>
+        <sequence>
+            <element name="TypeCode" type="tns:FactTypeCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Код (идентификатор) типа факта</documentation>
+                </annotation>
+            </element>
+            <element name="FactName" type="string" minOccurs="1"
+                     maxOccurs="1">
+                <annotation>
+                    <documentation>Наименование факта</documentation>
+                </annotation>
+            </element>
+            <element name="Dimensions"
+                     type="tns:DimensionDescription" minOccurs="0"
+                     maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Описания измерений</documentation>
+                </annotation>
+            </element>
+
+            <element name="EventType" type="tns:FactEventType"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Вид факта</documentation>
+                </annotation>
+            </element>
+
+            <element name="Values" type="tns:FactValueDescription" minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>Описания значений</documentation>
+                </annotation></element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="FactTypeCode">
+        <annotation>
+            <documentation>Код (идентификатор) типа факта</documentation>
+        </annotation>
+        <restriction base="string"/>
+    </simpleType>
+
+    <simpleType name="DatasourceCode">
+        <annotation>
+            <documentation>Код (идентификатор) источника данных</documentation>
+        </annotation>
+        <restriction base="long"/>
+    </simpleType>
+
+    <complexType name="Fact">
+        <annotation>
+            <documentation>Факт </documentation>
+        </annotation>
+        <sequence>
+            <element name="DatasourceCode" type="tns:DatasourceCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) источника данных
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="FactTypeCode" type="tns:FactTypeCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) типа факта
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="FactIdentifier" type="tns:FactIdentifier"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) факта (функциональный аналог
+                        первичного ключа в таблице фактов – по нему
+                        впоследствии факт можно идентифицировать и
+                        удалить)
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionValues" type="tns:DimensionValue"
+                     minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>
+                        Список значений измерений факта
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="FactValues" type="tns:FactValue"
+                     minOccurs="0" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>
+                        Значение факта (смысловая нагрузка зависит от
+                        того, что это за факт – в принципе может вообще
+                        не использоваться)
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="FactDate" type="dateTime" minOccurs="1" maxOccurs="1"/>
+        </sequence>
+    </complexType>
+
+    <complexType name="FactValue">
+        <annotation>
+            <documentation>Значение факта (смысловая нагрузка зависит от того, что это за факт – в принципе может вообще
+                не использоваться)
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="FactValueCode" type="tns:FactValueCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Код (идентификатор) значения факта</documentation>
+                </annotation>
+            </element>
+            <element name="Value" type="typ:AnyTypeValue" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Значение</documentation>
+                </annotation>
+            </element>
+            <element name="Comment" type="string" minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>Комментарий к значению факта</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <simpleType name="DimensionCode">
+        <annotation>
+            <documentation>Код (идентификатор) измерения</documentation>
+        </annotation>
+        <restriction base="string"/>
+    </simpleType>
+
+
+    <element name="AllAvailableFactDescriptions">
+        <annotation>
+            <documentation>Элемент "список описаний возможных фактов"</documentation>
+        </annotation>
+        <complexType>
+            <sequence>
+                <element name="values" type="tns:ListOfFactDescriptions" minOccurs="1" maxOccurs="1"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="ListOfFactDescriptions">
+        <sequence>
+            <element name="item" type="tns:FactDescription" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+
+    <simpleType name="FactIdentifier">
+        <annotation>
+            <documentation>
+                Код (идентификатор) факта (функциональный аналог
+                первичного ключа в таблице фактов – по нему впоследствии
+                факт можно идентифицировать и удалить)
+            </documentation>
+        </annotation>
+        <restriction base="typ:LongIdentifierBaseType"/>
+    </simpleType>
+
+    <simpleType name="FactEventType">
+        <annotation>
+            <documentation>Тип (вид) факта (события)</documentation>
+        </annotation>
+        <restriction base="string">
+            <enumeration value="statistic"/>
+            <enumeration value="operative"/>
+            <enumeration value="incident"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="FactValueCode">
+        <annotation>
+            <documentation>Код (идентификатор) значения факта</documentation>
+        </annotation>
+        <restriction base="string"/>
+    </simpleType>
+
+
+    <complexType name="FactValueDescription">
+        <sequence>
+            <element name="FactValueCode" type="tns:FactValueCode"
+                     minOccurs="1" maxOccurs="1">
+            </element>
+            <element name="Name" type="string" minOccurs="1" maxOccurs="1"/>
+            <element name="Type" type="typ:ValueType" minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>Тип данных</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="DimensionFilterValue">
+        <sequence>
+            <choice minOccurs="1" maxOccurs="1">
+                <element name="Value" type="typ:AnyTypeValue">
+                    <annotation>
+                        <documentation>Значение измерения</documentation>
+                    </annotation>
+                </element>
+                <element name="ReferenceLink" type="refer:ReferenceLink">
+                    <annotation>
+                        <documentation>Ссылка на элемент справочника</documentation>
+                    </annotation>
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+</schema>

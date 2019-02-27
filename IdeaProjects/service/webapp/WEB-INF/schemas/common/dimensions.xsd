@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://nahodka.ru/bi/services/common/schemas/dimensions"
+        elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://nahodka.ru/bi/services/common/schemas/dimensions"
+        xmlns:fac="http://nahodka.ru/bi/services/common/schemas/facts"
+        xmlns:typ="http://nahodka.ru/bi/services/common/schemas/types"
+        xmlns:refer="http://nahodka.ru/bi/services/common/schemas/references"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://nahodka.ru/bi/services/common/schemas/dimensions">
+    <import schemaLocation="types.xsd"
+            namespace="http://nahodka.ru/bi/services/common/schemas/types">
+    </import>
+    <import schemaLocation="references.xsd"
+            namespace="http://nahodka.ru/bi/services/common/schemas/references">
+    </import>
+    <import schemaLocation="facts.xsd"
+            namespace="http://nahodka.ru/bi/services/common/schemas/facts">
+    </import>
+
+    <complexType name="Dimension">
+        <annotation>
+            <documentation>Измерение </documentation>
+        </annotation>
+        <sequence>
+            <element name="DimensionId" type="long"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionName" type="string"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Имя измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionType" type="string"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Тип измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionHasSeparatedTable" type="boolean"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Измерение имеет таблицу в справочнике
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionTable" type="string"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Имя таблицы справочника
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="TableFieldId" type="string"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Поле-идентификатор таблицы данных измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="TableFieldValue" type="string"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Поле значения таблицы данных измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionIsDeleted" type="boolean"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Измерение удалено
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="TableExtraFields" type="string"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Дополнительные поля таблицы данных измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DimensionSettings" type="string"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Настройки измерения
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="DatasourceCode" type="fac:DatasourceCode"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Код (идентификатор) источника данных
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="ValueType" type="typ:ValueType"
+                     minOccurs="1" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        Тип данных
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="ETLName" type="string"
+                     minOccurs="0" maxOccurs="1">
+                <annotation>
+                    <documentation>
+                        ETLName
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+
+</schema>

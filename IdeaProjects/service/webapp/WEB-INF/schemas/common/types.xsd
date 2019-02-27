@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://nahodka.ru/bi/services/common/schemas/types"
+		elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://nahodka.ru/bi/services/common/schemas/types">
+
+	<import schemaLocation="references.xsd" namespace="http://nahodka.ru/bi/services/common/schemas/references"/>
+
+	<complexType name="AnyTypeValue">
+		<annotation>
+			<documentation>Значение произвольного типа данных</documentation>
+		</annotation>
+		<sequence>
+			<choice>
+				<element name="StringValue" type="string">
+					<annotation>
+						<documentation>Строковое значение</documentation>
+					</annotation></element>
+				<element name="FloatValue" type="float">
+					<annotation>
+						<documentation>Числовое значение</documentation>
+					</annotation></element>
+				<element name="IntValue" type="int">
+					<annotation>
+						<documentation>Числовое значение</documentation>
+					</annotation></element>
+				<element name="DateTimeValue" type="dateTime">
+					<annotation>
+						<documentation>Значение "дата-время"</documentation>
+					</annotation></element>
+				<element name="BooleanValue" type="boolean">
+					<annotation>
+						<documentation>Булево значение</documentation>
+					</annotation></element>
+			</choice>
+		</sequence>
+	</complexType>
+
+	<simpleType name="ValueType">
+		<annotation>
+			<documentation>Тип данных</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="string"/>
+			<enumeration value="float"/>
+			<enumeration value="datetime"/>
+			<enumeration value="boolean"/>
+			<enumeration value="integer"/>
+			<enumeration value="date"/>
+		</restriction>
+	</simpleType>
+
+	<complexType name="AnyTypeDescription">
+		<annotation>
+			<documentation>Описание произвольного типа данных</documentation>
+		</annotation>
+		<sequence>
+			<element name="Name" type="string" minOccurs="1"
+					 maxOccurs="1">
+				<annotation>
+					<documentation>Название</documentation>
+				</annotation>
+			</element>
+			<element name="Type" type="tns:ValueType" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>Тип данных</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="StringIdentifierBaseType">
+		<restriction base="string"/>
+	</simpleType>
+
+	<simpleType name="LongIdentifierBaseType">
+		<restriction base="long"/>
+	</simpleType>
+
+	<complexType name="AttributeCode">
+		<annotation>
+			<documentation>Код (идентификатор) атрибута</documentation>
+		</annotation>
+		<simpleContent>
+			<extension base="tns:StringIdentifierBaseType"/>
+		</simpleContent>
+	</complexType>
+
+	<complexType name="AttributeDescription">
+		<annotation>
+			<documentation>Описание атрибута справочника</documentation>
+		</annotation>
+		<sequence>
+			<element name="AttributeCode" type="tns:AttributeCode" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>Код (идентификатор) атрибута</documentation>
+				</annotation></element>
+			<element name="Description" type="tns:AnyTypeDescription" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>Описание атрибута (наименование и тип данных)</documentation>
+				</annotation></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="AttributeValue">
+		<annotation>
+			<documentation>Значение атрибута справочника</documentation>
+		</annotation>
+		<sequence>
+			<element name="AttributeCode"
+					 type="tns:AttributeCode" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>Код (идентификатор) атрибута</documentation>
+				</annotation>
+			</element>
+			<element name="Value" type="tns:AnyTypeValue" minOccurs="1" maxOccurs="1">
+				<annotation>
+					<documentation>Значение атрибута</documentation>
+				</annotation></element>
+		</sequence>
+	</complexType>
+
+	<simpleType name="OperatorType">
+		<annotation>
+			<documentation>Тип оператора</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="IN"/>
+			<enumeration value="NOT_IN"/>
+			<enumeration value="LIKE"/>
+			<enumeration value="EQUAL"/>
+			<enumeration value="NOT_EQUAL"/>
+			<enumeration value="BETWEEN"/>
+			<enumeration value="MORE"/>
+			<enumeration value="MORE_EQUAL"/>
+			<enumeration value="LESS"/>
+			<enumeration value="LESS_EQUAL"/>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="LogicOperation">
+		<annotation>
+			<documentation>Логическая операция</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="AND"/>
+			<enumeration value="OR"/>
+		</restriction>
+	</simpleType>
+
+</schema>

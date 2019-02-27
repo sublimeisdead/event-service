@@ -1,0 +1,112 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <tx:annotation-driven/>
+
+    <context:component-scan base-package=" ru.nahodka.bi">
+        <context:exclude-filter type="regex" expression="ru.nahodka.bi.services.eventservice.run..*"/>
+        <context:exclude-filter type="regex" expression="ru.nahodka.bi.core.notifications..*"/>
+    </context:component-scan>
+
+
+    <!--    <bean id="dataSourceBuilder" class="ru.nahodka.bi.core.connection.DataSourceBuilder"/>
+
+        <bean id="factory" class="ru.nahodka.bi.core.common.model.factory.FactTableHandlerFactory"/>
+
+        <bean id="loggingAspect" class="ru.nahodka.bi.core.aspect.LoggingAspect"/>
+
+        <bean id="dataProcessor" class="ru.nahodka.bi.core.dao.impl.hibernate.DataProcessor"/>-->
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>WEB-INF/messages/errors</value>
+                <value>WEB-INF/messages/label</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+        <property name="location">
+            <value>classpath:database.properties</value>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>org.postgresql.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:postgresql://192.168.1.200:5432/bi_metadata</value>
+        </property>
+        <property name="username">
+            <value>postgres</value>
+        </property>
+        <property name="password">
+            <value>1</value>
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="ru.nahodka.bi.core.domain"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL92Dialect</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <prop key="hibernate.jdbc.fetch_size">50</prop>
+                <prop key="hibernate.jdbc.batch_size">10</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--<websocket:message-broker application-destination-prefix="/api">
+        <websocket:stomp-endpoint path="/ws" allowed-origins="*">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/events"/>
+    </websocket:message-broker>
+
+   <bean id="mailSender" class="ru.nahodka.bi.core.notifications.core.strategies.email.NotificationMailSender">
+        <property name="host" value="mails"/>
+        <property name="port" value="25"/>
+        <property name="username" value="vm-bi-hudson-worker@kn-k.ru"/>
+        <property name="password" value="vm-bi-hudson-worker"/>
+        <property name="from" value="Граф-ИТ&lt;vm-bi-hudson-worker@kn-k.ru&gt;"/>
+    </bean>-->
+
+    <!--  <bean id="dummyWebsocketConfig"
+            class="ru.nahodka.bi.core.notifications.core.strategies.websocket.WebsocketConfig"
+            name="dummyWebsocketConfig">
+          <property name="sessionLifeTime" value="3600"/>
+      </bean>
+      <bean id="subscriberSessionPool" class="ru.nahodka.bi.core.notifications.core.strategies.websocket.SubscriberSessionPool"/>
+
+      <task:scheduler id="websocketSessionCleanup" pool-size="10"/>
+      <task:scheduled-tasks scheduler="websocketSessionCleanup">
+          <task:scheduled ref="subscriberSessionPool" method="cleanup"
+                          fixed-delay="#{dummyWebsocketConfig.sessionLifeTime * 1000}"/>
+      </task:scheduled-tasks>
+
+      <bean id="notificationSchedulerConfiguration" class="ru.nahodka.bi.core.notifications.core.task.NotificationSchedulerConfiguration">
+          <property name="batchSize" value="10"/>
+          <property name="sendDelayInSeconds" value="20"/>
+      </bean>
+
+      <bean class="ru.nahodka.bi.core.notifications.core.task.EventServiceWorker">
+          <property name="runOnStart" value="true"/>
+      </bean>-->
+
+  </beans>

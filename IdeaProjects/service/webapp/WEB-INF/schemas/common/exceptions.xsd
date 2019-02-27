@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://nahodka.ru/bi/services/common/schemas/exceptions"
+        elementFormDefault="qualified"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://nahodka.ru/bi/services/common/schemas/exceptions">
+
+    <simpleType name="ErrorCode">
+        <annotation>
+            <documentation>Код ошибки</documentation>
+        </annotation>
+
+        <restriction base="string">
+            <annotation>
+                <documentation>Перечисление возможных обрабатываемых кодов ошибок сервиса</documentation>
+            </annotation>
+
+            <enumeration value="NON_UNIQUE_DATA_SOURCE_CODE">
+                <annotation>
+                    <documentation>Обнаружено неуникальное значение </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSIONS_EXCEPTION">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент Dimensions </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSION_NAME">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент DimensionName </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSION_TYPE">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент DimensionType </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSION_SEPARATED_TABLE">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент Dimension hasSeparatedTable </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSION_IS_DELETED">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент Dimension isDeleted </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSION_VALUE_TYPE">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент Dimension ValueType </documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_DATA_SOURCE_CODE">
+                <annotation>
+                    <documentation>Указанный DatasourceCode не существует</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="INTERNAL_ERROR">
+                <annotation>
+                    <documentation>Произошла внутренняя ошибка</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_FACTS">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент Facts</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="MISSING_DATE">
+                <annotation>
+                    <documentation>Отсутствует обязательный элемент DATE_ELEMENT</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_UNIQUE_FACT_TYPE_CODE">
+                <annotation>
+                    <documentation>Обнаружен неуникальное значение FactTypeCode</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_FACT_TYPE_CODE">
+                <annotation>
+                    <documentation>Такой FactTypeCode = CODE не существует</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_FACT_VALUE_TYPE_CODE">
+                <annotation>
+                    <documentation>Такой FactValueTypeCode = CODE не существует</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="EMPTY_DIMENSIONS">
+                <annotation>
+                    <documentation>Отсутствует, либо пуст обязательный элемент Dimensions</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="AMBIGIOUS_DIMENSION_REFERENCE">
+                <annotation>
+                    <documentation>Невозможно определить измерение в таблице фактов</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="MISSING_DIMENSION_VALUE">
+                <annotation>
+                    <documentation>Отсутствует значение справочника указанного измерения без таблицы.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_DIMENSION_CODE">
+                <annotation>
+                    <documentation>Указанный DimensionCode не существует</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="AMBIGIOUS_DIMENSION_REFERENCE">
+                <annotation>
+                    <documentation>Невозможно определить измерение в таблице фактов</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_DIMENSION_IN_FACT_TABLE">
+                <annotation>
+                    <documentation>Указанное измерение не найдено в таблице фактов.</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="MISSING_REFERENCE_LINK_IN_DIMENSION">
+                <annotation>
+                    <documentation>Отсутствует обязательный элемент ReferenceLink</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_EVENT_TYPE_CODE">
+                <annotation>
+                    <documentation>Указанный EventTypeCode не существует</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="NON_EXISTING_DIMENSION_ITEM_CODE">
+                <annotation>
+                    <documentation>Не существует записи с указанным кодом в справочнике измерений</documentation>
+                </annotation>
+            </enumeration>
+            <enumeration value="DIMENSION_CONFLICT_WITH_SEPARATED_TABLE_USAGE">
+                <annotation>
+                    <documentation>Предоставленные данные измерения конфилктуют со свойством наличия у измерения справочника</documentation>
+                </annotation>
+            </enumeration>
+
+            <enumeration value="NOT_ENOUGH_DIMENSIONS">
+                <annotation>
+                    <documentation>В факте указаны не все измерения</documentation>
+                </annotation>
+            </enumeration>
+        </restriction>
+    </simpleType>
+
+    <element name="BiException">
+        <complexType>
+            <sequence>
+                <element name="ErrorCode" type="tns:ErrorCode"/>
+                <element name="Details"/>
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>
